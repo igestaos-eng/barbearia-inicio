@@ -1,0 +1,25 @@
+# Laravel .gitignore
+
+# Laravel dependencies
+/vendor/
+/node_modules/
+
+# Environment variables
+.env
+
+# IDE and editor configurations
+/.idea/
+/.vscode/
+
+# Cache and logs
+/storage/*.key
+/storage/*.log
+
+# Backup files
+*.bak
+*.tmp
+*.swp
+
+# Other development artifacts
+.DS_Store
+Thumbs.db
