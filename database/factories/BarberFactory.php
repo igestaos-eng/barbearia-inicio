@@ -17,7 +17,14 @@ class BarberFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => \App\Models\User::factory(),
+            'specialization' => fake()->randomElement(['Classic Cuts', 'Modern Styles', 'Beard Specialist', 'Kids Cuts']),
+            'bio' => fake()->paragraph(),
+            'photo' => null,
+            'experience_years' => fake()->numberBetween(1, 20),
+            'rating' => fake()->randomFloat(2, 3.0, 5.0),
+            'total_reviews' => fake()->numberBetween(0, 100),
+            'is_available' => true,
         ];
     }
 }

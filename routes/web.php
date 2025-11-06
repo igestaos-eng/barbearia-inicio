@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BarberController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
@@ -26,10 +28,29 @@ Route::middleware(['auth'])->group(function () {
 // Guest routes (viewing appointments)
 Route::resource('appointments', AppointmentController::class)->only(['index', 'show']);
 
-// Admin Routes
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'can:access-admin'])->group(function () {
-    Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('appointments', \App\Http\Controllers\Admin\AppointmentAdminController::class);
-    Route::resource('barbers', \App\Http\Controllers\Admin\BarberAdminController::class);
-    Route::resource('services', \App\Http\Controllers\Admin\ServiceAdminController::class);
+// Admin Authentication Routes
+Route::prefix('admin')->name('admin.')->group(function () {
+    // Guest routes (login, forgot password)
+    Route::middleware('guest')->group(function () {
+        Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+        Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+        Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+        Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+    });
+
+    // Authenticated admin routes
+    Route::middleware(['auth', 'can:access-admin'])->group(function () {
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+        Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+
+        // Resource routes
+        Route::resource('appointments', \App\Http\Controllers\Admin\AppointmentAdminController::class);
+        Route::resource('barbers', \App\Http\Controllers\Admin\BarberAdminController::class);
+        Route::resource('services', \App\Http\Controllers\Admin\ServiceAdminController::class);
+
+        // User management routes (only for superadmin)
+        Route::middleware('can:manage-admins')->group(function () {
+            Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+        });
+    });
 });
