@@ -6,14 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10",
-        "laravel/horizon": "^5.28",
-        "twilio/sdk": "^8.3",
+        "barryvdh/laravel-debugbar": "^3.14",
         "guzzlehttp/guzzle": "^7.9",
-        "spatie/laravel-permission": "^6.10",
+        "laravel/framework": "^12.0",
+        "laravel/horizon": "^5.28",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.10",
         "spatie/laravel-backup": "^9.1",
-        "barryvdh/laravel-debugbar": "^3.14"
+        "spatie/laravel-permission": "^6.10",
+        "twilio/sdk": "^8.3"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
