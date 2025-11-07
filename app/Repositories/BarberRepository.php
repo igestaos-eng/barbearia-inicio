@@ -256,12 +256,14 @@ class BarberRepository
         $searchTerm = '%'.strtolower($query).'%';
 
         return $this->model
-            ->whereHas('user', function ($q) use ($searchTerm) {
-                $q->whereRaw('LOWER(name) LIKE ?', [$searchTerm]);
-            })
-            ->orWhereRaw('LOWER(specialization) LIKE ?', [$searchTerm])
-            ->orWhereRaw('LOWER(bio) LIKE ?', [$searchTerm])
             ->where('is_available', true)
+            ->where(function ($q) use ($searchTerm) {
+                $q->whereHas('user', function ($query) use ($searchTerm) {
+                    $query->whereRaw('LOWER(name) LIKE ?', [$searchTerm]);
+                })
+                    ->orWhereRaw('LOWER(specialization) LIKE ?', [$searchTerm])
+                    ->orWhereRaw('LOWER(bio) LIKE ?', [$searchTerm]);
+            })
             ->with(['user', 'services'])
             ->orderBy('rating', 'desc')
             ->get();

@@ -400,9 +400,19 @@ class AppointmentRepository
      */
     private function clearAvailabilityCache(int $barberId): void
     {
-        // Clear all availability cache keys for this barber
-        // In production, you might want to use cache tags for better performance
-        $pattern = "available_slots_{$barberId}_*";
-        // Note: This is a simplified version. In production with Redis, use: Cache::tags(['availability', "barber_{$barberId}"])->flush();
+        // Clear availability cache for the barber
+        // In production with Redis, use: Cache::tags(['availability', "barber_{$barberId}"])->flush();
+        // For now, we clear cache by pattern (note: this requires custom cache driver support)
+        // As a simpler approach, we could track cache keys or use cache tags
+        Cache::forget("available_slots_{$barberId}");
+
+        // Clear cached data for common durations
+        foreach ([30, 45, 60, 90] as $duration) {
+            // Clear for next 30 days
+            for ($i = 0; $i < 30; $i++) {
+                $date = now()->addDays($i)->format('Y-m-d');
+                Cache::forget("available_slots_{$barberId}_{$date}_{$duration}");
+            }
+        }
     }
 }
