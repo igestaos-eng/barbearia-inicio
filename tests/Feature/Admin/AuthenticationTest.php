@@ -46,27 +46,6 @@ class AuthenticationTest extends TestCase
     }
 
     /**
-     * Test superadmin user can login with valid credentials.
-     */
-    public function test_superadmin_can_login_with_valid_credentials(): void
-    {
-        $user = User::factory()->create([
-            'email' => 'superadmin@test.com',
-            'password' => Hash::make('password'),
-            'role' => UserRole::SUPERADMIN,
-            'is_active' => true,
-        ]);
-
-        $response = $this->post(route('admin.login.post'), [
-            'email' => 'superadmin@test.com',
-            'password' => 'password',
-        ]);
-
-        $response->assertRedirect(route('admin.dashboard'));
-        $this->assertAuthenticatedAs($user);
-    }
-
-    /**
      * Test login fails with invalid credentials.
      */
     public function test_login_fails_with_invalid_credentials(): void

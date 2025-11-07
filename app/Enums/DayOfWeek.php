@@ -2,53 +2,58 @@
 
 namespace App\Enums;
 
-enum DayOfWeek: string
+enum DayOfWeek: int
 {
-    case MONDAY = 'monday';
-    case TUESDAY = 'tuesday';
-    case WEDNESDAY = 'wednesday';
-    case THURSDAY = 'thursday';
-    case FRIDAY = 'friday';
-    case SATURDAY = 'saturday';
-    case SUNDAY = 'sunday';
+    case SUNDAY = 1;
+    case MONDAY = 2;
+    case TUESDAY = 3;
+    case WEDNESDAY = 4;
+    case THURSDAY = 5;
+    case FRIDAY = 6;
+    case SATURDAY = 7;
 
     public function label(): string
     {
         return match ($this) {
+            self::SUNDAY => 'Sunday',
             self::MONDAY => 'Monday',
             self::TUESDAY => 'Tuesday',
             self::WEDNESDAY => 'Wednesday',
             self::THURSDAY => 'Thursday',
             self::FRIDAY => 'Friday',
             self::SATURDAY => 'Saturday',
-            self::SUNDAY => 'Sunday',
         };
     }
 
-    public function numeric(): int
+    public function short(): string
     {
         return match ($this) {
-            self::SUNDAY => 0,
-            self::MONDAY => 1,
-            self::TUESDAY => 2,
-            self::WEDNESDAY => 3,
-            self::THURSDAY => 4,
-            self::FRIDAY => 5,
-            self::SATURDAY => 6,
+            self::SUNDAY => 'Sun',
+            self::MONDAY => 'Mon',
+            self::TUESDAY => 'Tue',
+            self::WEDNESDAY => 'Wed',
+            self::THURSDAY => 'Thu',
+            self::FRIDAY => 'Fri',
+            self::SATURDAY => 'Sat',
         };
     }
 
-    public static function fromNumeric(int $day): self
+    public function isWeekend(): bool
     {
-        return match ($day) {
-            0 => self::SUNDAY,
-            1 => self::MONDAY,
-            2 => self::TUESDAY,
-            3 => self::WEDNESDAY,
-            4 => self::THURSDAY,
-            5 => self::FRIDAY,
-            6 => self::SATURDAY,
-            default => throw new \InvalidArgumentException("Invalid day number: {$day}"),
-        };
+        return in_array($this, [self::SUNDAY, self::SATURDAY]);
+    }
+
+    /**
+     * @return array<self>
+     */
+    public static function weekdays(): array
+    {
+        return [
+            self::MONDAY,
+            self::TUESDAY,
+            self::WEDNESDAY,
+            self::THURSDAY,
+            self::FRIDAY,
+        ];
     }
 }

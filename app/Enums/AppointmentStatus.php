@@ -40,7 +40,12 @@ enum AppointmentStatus: string
         return in_array($this, [self::PENDING, self::CONFIRMED, self::IN_PROGRESS]);
     }
 
-    public function canBeCancelled(): bool
+    public function isEditable(): bool
+    {
+        return in_array($this, [self::PENDING, self::CONFIRMED]);
+    }
+
+    public function isCancellable(): bool
     {
         return in_array($this, [self::PENDING, self::CONFIRMED]);
     }
