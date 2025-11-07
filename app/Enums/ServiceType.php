@@ -34,4 +34,16 @@ enum ServiceType: string
             self::PACKAGE => '📦',
         };
     }
+
+    public function defaultDuration(): int
+    {
+        return match ($this) {
+            self::HAIRCUT => 30,
+            self::BEARD => 20,
+            self::STYLING => 45,
+            self::COLORING => 90,
+            self::TREATMENT => 60,
+            self::PACKAGE => 120,
+        };
+    }
 }

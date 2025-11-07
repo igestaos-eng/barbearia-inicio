@@ -59,7 +59,7 @@ class AppointmentService
             throw new \RuntimeException('Appointment not found');
         }
 
-        if (! $appointment->status->canBeCancelled()) {
+        if (! $appointment->status->isCancellable()) {
             throw new \RuntimeException('This appointment cannot be cancelled');
         }
 

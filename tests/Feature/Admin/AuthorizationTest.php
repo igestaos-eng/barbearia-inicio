@@ -56,46 +56,12 @@ class AuthorizationTest extends TestCase
     }
 
     /**
-     * Test superadmin can access admin dashboard.
+     * Test admin can access user management.
      */
-    public function test_superadmin_can_access_admin_dashboard(): void
-    {
-        $user = User::factory()->create([
-            'role' => UserRole::SUPERADMIN,
-            'is_active' => true,
-        ]);
-
-        $this->actingAs($user);
-
-        $response = $this->get(route('admin.dashboard'));
-
-        $response->assertStatus(200);
-    }
-
-    /**
-     * Test admin cannot access user management.
-     */
-    public function test_admin_cannot_access_user_management(): void
+    public function test_admin_can_access_user_management(): void
     {
         $user = User::factory()->create([
             'role' => UserRole::ADMIN,
-            'is_active' => true,
-        ]);
-
-        $this->actingAs($user);
-
-        $response = $this->get(route('admin.users.index'));
-
-        $response->assertStatus(403);
-    }
-
-    /**
-     * Test superadmin can access user management.
-     */
-    public function test_superadmin_can_access_user_management(): void
-    {
-        $user = User::factory()->create([
-            'role' => UserRole::SUPERADMIN,
             'is_active' => true,
         ]);
 
