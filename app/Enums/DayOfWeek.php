@@ -2,15 +2,15 @@
 
 namespace App\Enums;
 
-enum DayOfWeek: int
+enum DayOfWeek: string
 {
-    case SUNDAY = 1;
-    case MONDAY = 2;
-    case TUESDAY = 3;
-    case WEDNESDAY = 4;
-    case THURSDAY = 5;
-    case FRIDAY = 6;
-    case SATURDAY = 7;
+    case SUNDAY = 'sunday';
+    case MONDAY = 'monday';
+    case TUESDAY = 'tuesday';
+    case WEDNESDAY = 'wednesday';
+    case THURSDAY = 'thursday';
+    case FRIDAY = 'friday';
+    case SATURDAY = 'saturday';
 
     public function label(): string
     {
@@ -41,6 +41,19 @@ enum DayOfWeek: int
     public function isWeekend(): bool
     {
         return in_array($this, [self::SUNDAY, self::SATURDAY]);
+    }
+
+    public function toNumber(): int
+    {
+        return match ($this) {
+            self::SUNDAY => 1,
+            self::MONDAY => 2,
+            self::TUESDAY => 3,
+            self::WEDNESDAY => 4,
+            self::THURSDAY => 5,
+            self::FRIDAY => 6,
+            self::SATURDAY => 7,
+        };
     }
 
     /**
