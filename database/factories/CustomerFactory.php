@@ -17,7 +17,12 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => \App\Models\User::factory(),
+            'birth_date' => fake()->optional()->date(),
+            'notes' => fake()->optional()->sentence(),
+            'preferences' => fake()->optional()->sentence(),
+            'total_appointments' => fake()->numberBetween(0, 50),
+            'last_visit_at' => fake()->optional()->dateTimeBetween('-6 months', 'now'),
         ];
     }
 }
