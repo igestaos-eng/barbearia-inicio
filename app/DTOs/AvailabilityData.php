@@ -41,10 +41,10 @@ class AvailabilityData
 
         // Validate time format (H:i)
         if (! preg_match('/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/', $this->startTime)) {
-            throw new InvalidArgumentException('Start time must be in H:i format (e.g., "09:00")');
+            throw new InvalidArgumentException('Start time must be in H:i format (e.g., "9:00" or "09:00")');
         }
         if (! preg_match('/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/', $this->endTime)) {
-            throw new InvalidArgumentException('End time must be in H:i format (e.g., "17:00")');
+            throw new InvalidArgumentException('End time must be in H:i format (e.g., "17:00" or "5:00")');
         }
 
         // Validate duration is positive
